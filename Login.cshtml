@@ -1,0 +1,117 @@
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title text-center">Sign In to Your Account</h3>
+            </div>
+            <div class="card-body">
+                <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3 form-check">
+                        <input asp-for="RememberMe" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label"></label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Sign In</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a asp-action="Register">Register now</a></p>
+                </div>
+
+                <!-- Mock Data Section - Embedded in the page -->
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6 class="text-center mb-3 text-muted">Test Accounts for Demo</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-2">
+                                <div class="card-body py-2">
+                                    <small class="text-primary fw-bold">Lecturer Account</small><br>
+                                    <small><strong>Email:</strong> lebo.lecturer1@university.com</small><br>
+                                    <small><strong>Password:</strong> Mlebogang@44</small>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-body py-2">
+                                    <small class="text-info fw-bold">Coordinator Account</small><br>
+                                    <small><strong>Email:</strong> thabo.coordinator@university.com</small><br>
+                                    <small><strong>Password:</strong> MThabo@55</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-2">
+                                <div class="card-body py-2">
+                                    <small class="text-warning fw-bold">Manager Account</small><br>
+                                    <small><strong>Email:</strong> thato.manager@university.com</small><br>
+                                    <small><strong>Password:</strong> Bthato@66</small>
+                                </div>
+                            </div>
+                            <div class="card mb-2">
+                                <div class="card-body py-2">
+                                    <small class="text-success fw-bold">HR Account</small><br>
+                                    <small><strong>Email:</strong> hr@university.com</small><br>
+                                    <small><strong>Password:</strong> HRpassword123!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">Use these accounts to test different user roles</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+        .card .card {
+            box-shadow: none;
+            border: 1px solid #dee2e6;
+        }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+        .btn-success:hover {
+            background-color: #157347;
+            border-color: #146c43;
+        }
+</style>
