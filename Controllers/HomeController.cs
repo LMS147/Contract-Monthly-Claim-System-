@@ -1,17 +1,26 @@
-using System.Diagnostics;
+using Contract_Monthly_Claim_System.Models.Data;
 using Contract_Monthly_Claim_System.Models.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -30,7 +39,51 @@ namespace ContractMonthlyClaimSystem.Controllers
             return View();
         }
 
-        // Add this development login method
+        // GET: /Home/Login
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        // POST: /Home/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(
+                    model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return RedirectToLocal(returnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+            }
+
+            return View(model);
+        }
+
+        // GET: /Home/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return RedirectToAction("Index", "Home");
+        }
+
+        // Development login (existing)
         [HttpGet]
         [Route("dev-login")]
         public IActionResult DevLogin()
@@ -42,13 +95,12 @@ namespace ContractMonthlyClaimSystem.Controllers
         [Route("dev-login")]
         public IActionResult DevLogin(string role)
         {
-            // Simple role-based redirect for development
             return role?.ToLower() switch
             {
                 "manager" => RedirectToAction("Dashboard", "Manager"),
                 "coordinator" => RedirectToAction("Dashboard", "Coordinator"),
                 "lecturer" => RedirectToAction("Dashboard", "Lecturer"),
-                "hr" => RedirectToAction("Dashboard", "HR"), // Add this line
+                "hr" => RedirectToAction("Dashboard", "HR"),
                 _ => RedirectToAction("Index", "Home")
             };
         }
@@ -62,6 +114,14 @@ namespace ContractMonthlyClaimSystem.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+            else
+                return RedirectToAction("Index", "Home");
         }
     }
 }
