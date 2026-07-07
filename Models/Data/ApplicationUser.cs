@@ -164,6 +164,7 @@ namespace Contract_Monthly_Claim_System.Models.Data
             [StringLength(500)]
             public string Description { get; set; } = string.Empty;
 
+
             [Required]
             public DateTime ActionDate { get; set; }
 
@@ -182,7 +183,8 @@ namespace Contract_Monthly_Claim_System.Models.Data
 
         // inside your AuditTrail class (Models)
         [NotMapped]
-        public DateTime Timestamp => ActionDate;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+
     }
     
 }

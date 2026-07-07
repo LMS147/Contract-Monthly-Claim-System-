@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Contract_Monthly_Claim_System.Models.Data
 {

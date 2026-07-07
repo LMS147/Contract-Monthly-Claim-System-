@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Contract_Monthly_Claim_System.Models;
 using Contract_Monthly_Claim_System.Models.Model;
 using Contract_Monthly_Claim_System.Models.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Contract_Monthly_Claim_System.Controllers
 {

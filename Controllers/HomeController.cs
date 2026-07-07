@@ -1,6 +1,7 @@
 using System.Diagnostics;
-using ContractMonthlyClaimSystem.Models;
+using Contract_Monthly_Claim_System.Models.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
