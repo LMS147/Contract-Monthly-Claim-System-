@@ -89,8 +89,11 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred seeding the DB.");
+        var logger = services.GetService<ILogger<Program>>();
+        if (logger != null)
+            logger.LogError(ex, "An error occurred seeding the DB.");
+        else
+            Console.WriteLine($"Seeding failed: {ex}");
     }
 }
 
