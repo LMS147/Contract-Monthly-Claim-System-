@@ -1,6 +1,5 @@
-using ContractMonthlyClaimSystem.Data;
-using ContractMonthlyClaimSystem.Models;
-using ContractMonthlyClaimSystem.Services;
+using Contract_Monthly_Claim_System.Models;
+using Contract_Monthly_Claim_System.Models.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
